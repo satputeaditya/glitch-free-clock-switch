@@ -1,12 +1,12 @@
-// glitch_free_clock_switch.v
+//clock_transition.v
 
-module glitch_free_clock_switch (
-									input   rst,
-									input   clk_1,
-									input   clk_2,
-									input   select,   // 1 = clk_1  , 0 = clk_2
-									output  clk_out
-								);
+module clock_transition (
+				input   rst,
+				input   clk_1,
+				input   clk_2,
+				input   select,   // 1 = clk_1  , 0 = clk_2
+				output  clk_out
+			);
   //----------------------------------------------------------------
   // Concurrent connectivity for ports etc.
   //----------------------------------------------------------------
@@ -31,13 +31,13 @@ module glitch_free_clock_switch (
   always @ (posedge clk_1 or negedge rst)
     begin : clk_1_reg
 		if (!rst)
-          clock_1   <= 'b0;
+          		clock_1   <= 'b0;
 		else
 			begin
 			  clock_1[0]   <= temp_1;
 			  clock_1[1]   <= clock_1[0];
 			end
-	end 
+	end // clk_1_reg
 	
   //----------------------------------------------------------------
   // synchronous logic for clk_2
@@ -45,12 +45,12 @@ module glitch_free_clock_switch (
   always @ (posedge clk_2 or negedge rst)
     begin : clk_2_reg
 		if (!rst)
-          clock_2   <= 'b0;
+          		clock_2   <= 'b0;
 		else
 			begin
 			  clock_2[0]   <= temp_2;		
 			  clock_2[1]   <= clock_2[0];
 			end
-	end
+	end // clk_2_reg
 
 endmodule  // EOF clock_transition
